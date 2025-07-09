@@ -9,4 +9,4 @@ ARCHIVO_SALIDA_PATH = DATA_PROCESADA_PATH / "ventas_historico.csv"  # Archivo CS
 DATA_LIMPIA_PATH = DATA_PROCESADA_PATH / "ventas_limpio.csv"  # Archivo CSV limpio de salida
 DATA_SIN_INFLACION = DATA_PROCESADA_PATH / "ventas_ajustado_a_jun25.csv"  # Archivo CSV ajustado por inflación
 DATA_FACTURAS_PATH = DATA_PATH / "VENTAS_JUNIO_2025.txt"  # Archivo txt de facturas procesadas
-DATA_FINAL_FACTURAS_PATH = DATA_PROCESADA_PATH / "ventas_final.txt"  # Archivo txt final de facturas procesadas
+DATA_FINAL_FACTURAS_PATH = DATA_PROCESADA_PATH / "ventas_final.csv"  # Archivo txt final de facturas procesadas
