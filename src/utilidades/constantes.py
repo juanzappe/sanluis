@@ -14,9 +14,13 @@ MOSTRADOR_SALIDA_PATH = DATA_PROCESADA_PATH / "ventas_mostrador.csv"  # Archivo 
 PATRON_SERVICIOS_PATH = "FACTURACION_*.txt"  # Archivo txt de facturas de servicios procesadas
 SERVICIOS_SALIDA_PATH = DATA_PROCESADA_PATH / "ventas_servicios.csv"  # Archivo txt final de facturas de servicios procesadas
 
-# TOTAL
-PATRON_INGRESOS_PATH = "TOTAL_*.csv"  # Archivo CSV de ventas totales
+# TOTAL INGRESOS
+PATRON_INGRESOS_PATH = "TOTAL_INGRESOS*.csv"  # Archivo CSV de ventas totales
 INGRESOS_SALIDA_PATH = DATA_PROCESADA_PATH / "ingresos_totales.csv"  # Archivo CSV de ventas totales ajustado por inflación
+
+#TOTAL EGRESOS
+PATRON_EGRESOS_PATH = "TOTAL_EGRESOS*.csv"  # Archivo CSV de egresos totales
+EGRESOS_SALIDA_PATH = DATA_PROCESADA_PATH / "egresos_totales.csv"  # Archivo CSV de egresos totales ajustado por inflación  
 
 #--------------RUTA-DATA-FINAL------------------------------------------------------------------------------------------------
 # ARCHIVO FINAL UNIFICADO
@@ -28,5 +32,6 @@ ARCHIVO_SERVICIOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_servicios_fin
 
 # ARCHIVO FINAL DE VENTAS TOTALES
 ARCHIVO_INGRESOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "ingresos_totales_final.csv"  # Archivo CSV final unificado
+ARCHIVO_EGRESOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "egresos_totales_final.csv"  # Archivo CSV final unificado
 
 
