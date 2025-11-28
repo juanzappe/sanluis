@@ -8,36 +8,30 @@ import numpy as np
 
 def unificar_ventas_excel_a_csv(directorio_entrada, patron_archivos, archivo_salida):
     """
-    Une todos los archivos Excel en 'directorio_entrada' que cumplen el patrón 'patron_archivos'
-    en un único archivo CSV llamado 'archivo_salida', unificando columnas y eliminando duplicados.
+    Une todos los Excel preservando TODAS las columnas, sin forzar estructura,
+    evitando pérdida de filas y datos.
     """
     directorio_entrada = Path(directorio_entrada)
     archivos = sorted(directorio_entrada.glob(patron_archivos))
-    es_primer_archivo = True
-    columnas_base = None
     lista_df = []
 
     for archivo in archivos:
         print(f"Leyendo: {archivo.name}")
-        df = pd.read_excel(archivo)
-        if es_primer_archivo:
-            columnas_base = df.columns
-            es_primer_archivo = False
-        else:
-            # Forzar el mismo orden de columnas
-            df = df[columnas_base]
+        df = pd.read_excel(archivo, dtype=str)  # leer todo como texto evita corrupciones
         lista_df.append(df)
-    
-    # Concatenar todos los DataFrames
-    df_unificado = pd.concat(lista_df, ignore_index=True)
-    
-    # Eliminar duplicados (ajustá la clave según tu archivo, acá usamos 'idVenta')
-    df_unificado = df_unificado.drop_duplicates(subset=['idVenta'])
 
-    # Guardar el CSV final
-    Path(archivo_salida).parent.mkdir(exist_ok=True)
-    df_unificado.to_csv(archivo_salida, index=False, encoding='utf-8-sig')
-    print(f"Archivo CSV final guardado en: {archivo_salida}")
+    # Concatenación segura sin recortar columnas
+    df_unificado = pd.concat(lista_df, ignore_index=True, sort=False)
+
+    # Exportar
+    df_unificado.to_csv(archivo_salida, index=False, encoding="utf-8-sig")
+
+    print(f"Archivo final generado: {archivo_salida}")
+    print(f"Total filas combinadas: {len(df_unificado)}")
+
+    return df_unificado
+
+
 
 def parse_line(line, file_name=None, line_num=None):
     try:
@@ -85,58 +79,28 @@ def unir_ventas(ARCHIVO_MOSTRADOR_FINAL_PATH,ARCHIVO_SERVICIOS_FINAL_PATH,ARCHIV
     df_mostrador = pd.read_csv(ARCHIVO_MOSTRADOR_FINAL_PATH)
 
     # Seleccionamos columnas y renombramos
-    df_servicios_simple = df_servicios[['fecha_emision', 'denominacion', 'TotalVenta_Ajustado',
-                                'cuit_receptor', 'Anio', 'Mes', 'importe_total']].rename(columns={
+    df_servicios_simple = df_servicios[['fecha_emision', 'denominacion',
+                                'cuit_receptor', 'Anio', 'Mes', 'importe_total']].rename(columns={                       
         'fecha_emision': 'fecha',
         'denominacion': 'cliente',
-        'TotalVenta_Ajustado': 'monto ajustado',
         'cuit_receptor': 'cuit',
         'Anio': 'anio',
         'Mes': 'mes',
         'importe_total': 'monto'
     })
 
-    df_mostrador_simple = df_mostrador[['Fecha', 'Cliente', 'TotalVenta_Ajustado',
-                                        'Producto', 'CUIT', 'Anio', 'Mes', 'TotalVenta']].rename(columns={
+    df_mostrador_simple = df_mostrador[['Fecha', 'Cliente',
+                                        'CUIT', 'anio', 'mes', 'subtotal_item','origen']].rename(columns={
         'Fecha': 'fecha',
         'Cliente': 'cliente',
-        'TotalVenta_Ajustado': 'monto ajustado',
-        'Producto': 'producto',
         'CUIT': 'cuit',
-        'Anio': 'anio',
-        'Mes': 'mes',
-        'TotalVenta': 'monto'
+        'anio': 'anio',
+        'mes': 'mes',
+        'subtotal_item': 'monto'
     })
 
     # Asignamos origen 'servicio' a facturación
     df_servicios_simple['origen'] = 'servicio'
-
-    # Listas de productos
-    decoracion_items = [
-        'ALMOHADON', 'APOYA CUCHARA', 'AZUCARERA', 'BANCO TRES PATAS', 'BANCO RECTANGULAR',
-        'COLGANTES DE CERAMICA', 'COLGANTES VARIOS', 'CORAZON CHICO', 'CORAZON GRANDE', 'CORAZON MEDIANO',
-        'CUENCO CHICO', 'CUENCO MEDIANO', 'CUENCO MINI', 'CUENCO GRANDE', 'JARRA', 'JARRITO/ MATE/ VASITO',
-        'JARRO', 'LECHERITA', 'MACETA CHICA', 'MACETA MEDIANA', 'PINGUINO LITRO', 'PINGUINO MEDIO LITRO',
-        'PLATO 24CM', 'PLATO 30CM', 'PLATO POSTRE', 'PORTA CUCHARA GRANDE', 'PORTA VELA', 'POSE TORTA',
-        'REGALERÍA', 'REGALERIA VARIOS', 'TAZA SOLA', 'TAZA SOLA ARTESANAL', 'TAZON ARTESANAL',
-        'TAZON PARA LANA', 'TELAS', 'TETERA', 'VELA', 'velas', 'TASA CON PLATO MOLDE', 'TAZA CON PLATO ARTESANAL'
-    ]
-    decoracion_items = [item.lower() for item in decoracion_items]
-    restobar_items = ['RESTOBAR', 'restovar','CONFITERIA']
-    restobar_items = [item.lower() for item in restobar_items]
-
-    # Función auxiliar
-    def clasificar_origen(producto):
-        producto_lower = str(producto).lower()
-        if any(item in producto_lower for item in decoracion_items):
-            return 'decoracion'
-        elif any(item in producto_lower for item in restobar_items):
-            return 'restobar'
-        else:
-            return 'mostrador'
-
-    # Clasificar origen en mostrador
-    df_mostrador_simple['origen'] = df_mostrador_simple['producto'].apply(clasificar_origen)
 
     # Concatenar
     df_unido = pd.concat([df_servicios_simple, df_mostrador_simple], ignore_index=True)
@@ -144,7 +108,6 @@ def unir_ventas(ARCHIVO_MOSTRADOR_FINAL_PATH,ARCHIVO_SERVICIOS_FINAL_PATH,ARCHIV
     # Ajustar fecha
     df_unido['fecha'] = df_unido['fecha'].astype(str).str.split().str[0]
     
-    df_unido['producto'] = df_unido['producto'].fillna('No aplica')
 
     # Exportar CSV
     df_unido.to_csv(ARCHIVO_UNIFICADO_PATH, index=False)

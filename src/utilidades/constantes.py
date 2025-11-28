@@ -1,8 +1,8 @@
 from pathlib import Path
 
 #------------RUTA-DATA-CRUDA-------------------------------------------------
-DATA_PATH = Path("../../1_data")  # Carpeta de entrada con archivos Excel
-DATA_PROCESADA_PATH = Path("../../2_data_procesada")  # Carpeta de salida para archivos procesados
+DATA_PATH = Path("../../1_data_cruda")  # Carpeta de entrada con archivos Excel
+DATA_PROCESADA_PATH = Path("../../2_data_unificada")  # Carpeta de salida para archivos procesados
 DATA_UNIFICADA_FINAL_PATH = Path("../../3_data_final")  # Carpeta de salida para archivo final unificado
 
 #-------------RUTA-DATA-CRUDA-UNIFICADA-------------------------------------------------------------------------------------------------
