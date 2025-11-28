@@ -35,7 +35,10 @@ ARCHIVO_SERVICIOS_FINAL_AJUSTADO_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_serv
 
 # ARCHIVO FINAL DE VENTAS TOTALES
 ARCHIVO_INGRESOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "ingresos_totales_final.csv"  # Archivo CSV final unificado
+ARCHIVO_INGRESOS_FINAL_AJUSTADO_PATH = DATA_UNIFICADA_FINAL_PATH / "ingresos_totales_final_ajustado.csv"  # Archivo CSV final unificado ajustado por inflación
+
 ARCHIVO_EGRESOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "egresos_totales_final.csv"  # Archivo CSV final unificado
+ARCHIVO_EGRESOS_FINAL_AJUSTADO_PATH = DATA_UNIFICADA_FINAL_PATH / "egresos_totales_final_ajustado.csv"  # Archivo CSV final unificado ajustado por inflación
 
 
 
