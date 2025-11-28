@@ -28,10 +28,15 @@ ARCHIVO_UNIFICADO_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_unificadas.csv"  # 
 
 # ARCHIVO FINAL DE MOSTRADOR Y FACTURACION
 ARCHIVO_MOSTRADOR_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_mostrador_final.csv"  # Archivo CSV final unificado
+ARCHIVO_MOSTRADOR_FINAL_AJUSTADO_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_mostrador_final_ajustado.csv"  # Archivo CSV final unificado ajustado por inflación
+
 ARCHIVO_SERVICIOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_servicios_final.csv"  # Archivo CSV final unificado
+ARCHIVO_SERVICIOS_FINAL_AJUSTADO_PATH = DATA_UNIFICADA_FINAL_PATH / "ventas_servicios_final_ajustado.csv"  # Archivo CSV final unificado ajustado por inflación
 
 # ARCHIVO FINAL DE VENTAS TOTALES
 ARCHIVO_INGRESOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "ingresos_totales_final.csv"  # Archivo CSV final unificado
 ARCHIVO_EGRESOS_FINAL_PATH = DATA_UNIFICADA_FINAL_PATH / "egresos_totales_final.csv"  # Archivo CSV final unificado
+
+
 
 

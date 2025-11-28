@@ -80,23 +80,25 @@ def unir_ventas(ARCHIVO_MOSTRADOR_FINAL_PATH,ARCHIVO_SERVICIOS_FINAL_PATH,ARCHIV
 
     # Seleccionamos columnas y renombramos
     df_servicios_simple = df_servicios[['fecha_emision', 'denominacion',
-                                'cuit_receptor', 'Anio', 'Mes', 'importe_total']].rename(columns={                       
+                                'cuit_receptor', 'Anio', 'Mes', 'importe_total','importe_ajustado']].rename(columns={                       
         'fecha_emision': 'fecha',
         'denominacion': 'cliente',
         'cuit_receptor': 'cuit',
         'Anio': 'anio',
         'Mes': 'mes',
-        'importe_total': 'monto'
+        'importe_total': 'monto',
+        'importe_ajustado': 'monto_ajustado'
     })
 
     df_mostrador_simple = df_mostrador[['Fecha', 'Cliente',
-                                        'CUIT', 'anio', 'mes', 'subtotal_item','origen']].rename(columns={
+                                        'CUIT', 'anio', 'mes', 'subtotal_item','Subtotal_Ajustado','origen']].rename(columns={
         'Fecha': 'fecha',
         'Cliente': 'cliente',
         'CUIT': 'cuit',
         'anio': 'anio',
         'mes': 'mes',
-        'subtotal_item': 'monto'
+        'subtotal_item': 'monto',
+        'Subtotal_Ajustado': 'monto_ajustado'
     })
 
     # Asignamos origen 'servicio' a facturación
